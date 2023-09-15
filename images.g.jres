@@ -9,6 +9,11 @@
         "mimeType": "image/x-mkcd-f4",
         "displayName": "robber"
     },
+    "image3": {
+        "data": "hwQQABAAAADgAAAAAAAADt0NAAAAANDdHQ0AAAAA0NEdDd3dDd3d0R3dERHREdHRHR3x8RHx0dEdHR8RHx/R0R0d8fER8dHRHR0fER8f0dEdHfHxEfHR0R0dHxEfH9HRHR0RHRER3dEd3d3Q3d3Q0R0NAAAAANDR3Q0AAAAA0N3gAAAAAAAADg==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "note"
+    },
     "*": {
         "mimeType": "image/x-mkcd-f4",
         "dataEncoding": "base64",
