@@ -103,8 +103,10 @@ function generate_code () {
 let row = 0
 let col = 0
 let answer = ""
+let code = ""
 let note: Sprite = null
 let guard: Sprite = null
+let opened_chest = false
 let path: tiles.Location[] = []
 let start_row = 0
 let start_col = 0
@@ -113,10 +115,6 @@ let x_vel = 0
 let y_vel = 0
 let robber: Sprite = null
 let speed = 0
-let opened_chest = false
-let code = ""
-code = ""
-opened_chest = false
 speed = 30
 robber = sprites.create(assets.image`robber`, SpriteKind.Player)
 controller.moveSprite(robber)
