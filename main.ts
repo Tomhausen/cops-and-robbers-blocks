@@ -33,7 +33,6 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`open door`, function (sprite,
 function spawn_guard () {
     guard = sprites.create(assets.image`guard`, SpriteKind.Enemy)
     tiles.placeOnRandomTile(guard, assets.tile`guard spawn`)
-    tiles.setTileAt(guard.tilemapLocation(), assets.tile`floor`)
     sprites.setDataBoolean(guard, "searching", false)
     idle_behaviour(guard)
 }
