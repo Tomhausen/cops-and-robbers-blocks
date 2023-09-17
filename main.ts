@@ -16,13 +16,6 @@ function idle_behaviour (guard: Sprite) {
 }
 function follow_using_pathfinding (sprite: Sprite, target: Sprite, speed: number) {
     guard_pos = sprite.tilemapLocation()
-    start_col = sprites.readDataNumber(sprite, "start_col")
-    start_row = sprites.readDataNumber(sprite, "start_row")
-    if (guard_pos.column == start_col && guard_pos.row == start_row) {
-        return
-    }
-    sprites.setDataNumber(sprite, "start_col", guard_pos.column)
-    sprites.setDataNumber(sprite, "start_row", guard_pos.row)
     path = scene.aStar(guard_pos, target.tilemapLocation())
     scene.followPath(sprite, path, speed)
 }
@@ -42,8 +35,6 @@ function spawn_guard () {
     tiles.placeOnRandomTile(guard, assets.tile`guard spawn`)
     tiles.setTileAt(guard.tilemapLocation(), assets.tile`floor`)
     sprites.setDataBoolean(guard, "searching", false)
-    sprites.setDataNumber(guard, "start_col", 0)
-    sprites.setDataNumber(guard, "start_row", 0)
     idle_behaviour(guard)
 }
 function setup_level () {
@@ -55,6 +46,7 @@ function setup_level () {
     tilesAdvanced.swapAllTiles(assets.tile`guard spawn`, assets.tile`floor`)
     opened_chest = false
     note = sprites.create(assets.image`note`, SpriteKind.Food)
+    note.z = -1
     tiles.placeOnRandomTile(note, assets.tile`floor`)
     generate_code()
 }
@@ -108,8 +100,6 @@ let note: Sprite = null
 let guard: Sprite = null
 let opened_chest = false
 let path: tiles.Location[] = []
-let start_row = 0
-let start_col = 0
 let guard_pos: tiles.Location = null
 let x_vel = 0
 let y_vel = 0
