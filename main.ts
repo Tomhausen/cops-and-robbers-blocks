@@ -14,6 +14,21 @@ function idle_behaviour (guard: Sprite) {
         guard.setVelocity(x_vel, 0)
     }
 }
+function alerted (guard: Sprite) {
+    if (scene.spriteIsFollowingPath(guard)) {
+        if (sprites.readDataString(guard, "colour") == "blue") {
+            guard.image.replace(8, 2)
+            sprites.setDataString(guard, "colour", "red")
+        } else {
+            guard.image.replace(2, 8)
+            sprites.setDataString(guard, "colour", "blue")
+        }
+        guard.sayText("!")
+    } else {
+        guard.image.replace(2, 8)
+        guard.sayText("")
+    }
+}
 function follow_using_pathfinding (sprite: Sprite, target: Sprite, speed: number) {
     guard_pos = sprite.tilemapLocation()
     path = scene.aStar(guard_pos, target.tilemapLocation())
@@ -34,6 +49,7 @@ function spawn_guard () {
     guard = sprites.create(assets.image`guard`, SpriteKind.Enemy)
     tiles.placeOnRandomTile(guard, assets.tile`guard spawn`)
     sprites.setDataBoolean(guard, "searching", false)
+    sprites.setDataString(guard, "colour", "blue")
     idle_behaviour(guard)
 }
 function setup_level () {
@@ -112,5 +128,10 @@ setup_level()
 game.onUpdate(function () {
     for (let value of sprites.allOfKind(SpriteKind.Enemy)) {
         guard_behaviour(value)
+    }
+})
+game.onUpdateInterval(500, function () {
+    for (let value of sprites.allOfKind(SpriteKind.Enemy)) {
+        alerted(value)
     }
 })
