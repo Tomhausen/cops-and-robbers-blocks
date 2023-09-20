@@ -29,6 +29,13 @@ function alerted (guard: Sprite) {
         guard.sayText("")
     }
 }
+function convert_code (input2: string) {
+    temp_value = input2
+    while (temp_value.length < 4) {
+        temp_value = "0" + temp_value
+    }
+    return temp_value
+}
 function follow_using_pathfinding (sprite: Sprite, target: Sprite, speed: number) {
     guard_pos = sprite.tilemapLocation()
     path = scene.aStar(guard_pos, target.tilemapLocation())
@@ -63,10 +70,10 @@ function setup_level () {
     note = sprites.create(assets.image`note`, SpriteKind.Food)
     note.z = -1
     tiles.placeOnRandomTile(note, assets.tile`floor`)
-    generate_code()
+    code = convert_code(convertToText(randint(0, 9999)))
 }
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (robber, guard) {
-    game.over(false)
+	
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSprite) {
     robber.sayText(code, 100, false)
@@ -74,7 +81,7 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSpr
 scene.onOverlapTile(SpriteKind.Player, assets.tile`chest`, function (robber, chest) {
     if (!(opened_chest)) {
         answer = convertToText(game.askForNumber("", 4))
-        if (answer == code) {
+        if (convert_code(answer) == code) {
             opened_chest = true
             info.changeScoreBy(1000)
             music.play(music.melodyPlayable(music.siren), music.PlaybackMode.UntilDone)
@@ -101,12 +108,6 @@ function guard_behaviour (guard: Sprite) {
         scene.followPath(guard, path)
     }
 }
-function generate_code () {
-    code = convertToText(randint(0, 9999))
-    while (code.length < 4) {
-        code = "0" + code
-    }
-}
 let row = 0
 let col = 0
 let answer = ""
@@ -116,6 +117,7 @@ let guard: Sprite = null
 let opened_chest = false
 let path: tiles.Location[] = []
 let guard_pos: tiles.Location = null
+let temp_value = ""
 let x_vel = 0
 let y_vel = 0
 let robber: Sprite = null
@@ -124,6 +126,7 @@ speed = 30
 robber = sprites.create(assets.image`robber`, SpriteKind.Player)
 controller.moveSprite(robber)
 scene.cameraFollowSprite(robber)
+spriteutils.setConsoleOverlay(true)
 setup_level()
 game.onUpdate(function () {
     for (let value of sprites.allOfKind(SpriteKind.Enemy)) {
